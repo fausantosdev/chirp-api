@@ -1,2 +1,2 @@
-# garapas-pastelaria-api
-Garapas Pastelaria API
+# chirp-api
+Chirp API
