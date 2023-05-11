@@ -5,8 +5,6 @@ import path from 'path'
 
 import routes from './app/routes'
 
-import './database'
-
 class App {
     server: Express
 
