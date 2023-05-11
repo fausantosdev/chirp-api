@@ -1,4 +1,6 @@
-import customException from '../../utils/CustomException'
+import UserRepository from '../repositories/UserRepository'
+
+import CustomException from '../../utils/CustomException'
 
 type CreateUser = {
     name: string,
@@ -12,15 +14,21 @@ class UserService {
         return {}
     }
 
-    async read (where: object) {
-        return where
+    async read (where = {}) {
+
+        const result = await UserRepository.read(where)
+
+        if ( !result ) throw new CustomException('Nenhum usuário encontrado')
+
+        return result
     }
 
-    async readById (id: object) {
-        if ( !id ) {
-            return id
-        }
-        return id
+    async readOne (where = {}) {
+        const result = await UserRepository.readOne(where)
+
+        if ( !result ) throw new CustomException('Usuário não encontrado')
+
+        return result
     }
 
     async update (data: object, where: object) {

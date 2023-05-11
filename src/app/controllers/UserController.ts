@@ -6,15 +6,17 @@ class UserController {
     async index(req: Request, res: Response) {
         const { id } = req.params
 
-        try {
-            /*const result = await UserService.readById(id)
-            
-            console.log(result)*/
+        let result = null
 
+        try {
+            id ?
+                result = await UserService.readOne({ id: Number(id) }) :
+                result = await UserService.read()
+            
             return res.status(200).json({
                 status: true,
-                data: 'data',
-                message: 'message'
+                data: result,
+                message: ''
             }) 
         } catch (error: any) {
             return res.status(error.code || 500).json({
