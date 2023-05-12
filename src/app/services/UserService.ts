@@ -6,12 +6,25 @@ type CreateUser = {
     name: string,
     username: string,
     email: string,
-    password: string
 }
 
 class UserService {
-    async create ({}: CreateUser) {
-        return {}
+    async create ({ name, username, email }: CreateUser) {
+        const usernameExists = await UserRepository.readOne({ username })
+
+        if (usernameExists) throw new CustomException('Username já está sendo utilizado')
+
+        const emailExixts = await UserRepository.readOne({ email })
+
+        if (emailExixts) throw new CustomException('E-mail já está sendo utilizado')
+
+        const result = await UserRepository.create({
+            name,
+            username,
+            email
+        })
+
+        return result
     }
 
     async read (where = {}) {
