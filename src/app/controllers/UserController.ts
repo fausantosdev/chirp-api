@@ -54,11 +54,11 @@ class UserController {
         }
     }
 
-    /*async update(req, res){
-        const id = req.params.id
+    async update(req: Request, res: Response){
+        const id = Number(req.params.id)
         
         try {
-            const result = await UserService.update(req.body, { id })
+            const result = await UserService.update(req.body, id)
 
             return res.status(200).json({
                 status: true,
@@ -66,14 +66,17 @@ class UserController {
                 message: 'Usuário atualizado com sucesso'
             })
 
-        } catch (error) {
-            return res.status(error.code || 500).json({
+        } catch (error: any) {
+
+            const errCode = error.code && typeof error.code === 'number' ? error.code : 500
+
+            return res.status(errCode).json({
                 status: false,
                 data: null,
                 message: error.message
             })
         }
-    }*/
+    }
 
     /*async remove(req, res){
         const id = req.params.id

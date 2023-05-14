@@ -9,7 +9,7 @@ const routes = Router()
 routes.post('/', userController.store)
 
 routes.get('/:id?', userController.index)
-//routes.put('/:id', checkUserOrIsAdmin, UserController.update)
+routes.put('/:id', userController.update)
 //routes.delete('/:id', checkUserOrIsAdmin, UserController.remove)
 
 export default routes

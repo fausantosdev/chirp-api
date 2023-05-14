@@ -42,8 +42,10 @@ class UserRepository {
         return user
     }
 
-    async update (data: object, where: object) {
-        return where
+    async update (data: object, id: number) {
+        const user = await prisma.user.update({ where: { id } , data })
+
+        return user
     }
 
     async delete (where: object) {
