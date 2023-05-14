@@ -10,6 +10,6 @@ routes.post('/', userController.store)
 
 routes.get('/:id?', userController.index)
 routes.put('/:id', userController.update)
-//routes.delete('/:id', checkUserOrIsAdmin, UserController.remove)
+routes.delete('/:id', userController.remove)
 
 export default routes

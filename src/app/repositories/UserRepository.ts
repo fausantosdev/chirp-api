@@ -49,7 +49,9 @@ class UserRepository {
     }
 
     async delete (where: object) {
-        return where
+        const deleted = await prisma.user.delete({ where })
+        
+        return deleted
     }
 }
 

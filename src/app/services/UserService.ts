@@ -80,7 +80,13 @@ class UserService {
     }
 
     async delete (where: object) {
-        return where
+        const userExists = await UserRepository.readOne(where)
+
+        if (!userExists) throw new CustomException('Usuário não encontrado')
+
+        const deletedUser = await UserRepository.delete(where)
+
+        return deletedUser
     }
 }
 

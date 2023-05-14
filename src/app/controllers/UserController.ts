@@ -67,7 +67,6 @@ class UserController {
             })
 
         } catch (error: any) {
-
             const errCode = error.code && typeof error.code === 'number' ? error.code : 500
 
             return res.status(errCode).json({
@@ -78,8 +77,8 @@ class UserController {
         }
     }
 
-    /*async remove(req, res){
-        const id = req.params.id
+    async remove(req: Request, res: Response){
+        const id = Number(req.params.id)
 
         try {
             const result = await UserService.delete({ id })
@@ -90,14 +89,16 @@ class UserController {
                 message: ''
             })
 
-        } catch (error) {
-            return res.status(error.code || 500).json({
+        } catch (error: any) {
+            const errCode = error.code && typeof error.code === 'number' ? error.code : 500
+
+            return res.status(errCode).json({
                 status: false,
                 data: null,
                 message: error.message
             })
         } 
-    }*/
+    }
 }
 
 export default new UserController()
