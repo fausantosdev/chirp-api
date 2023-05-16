@@ -1,10 +1,40 @@
+import { PrismaClient } from '@prisma/client' 
+
+const prisma = new PrismaClient()
+
+type ICreateChirp = {
+    userId: number
+    content: string
+    image?: string
+}
+
 class ChirpRepository {
-    async create ({}) {  
-        return {}
+    async create ({ userId, content, image }: ICreateChirp) {  
+        const chirp = await prisma.chirp.create({
+            data: {
+                userId,
+                content,
+                image
+            }
+        })
+
+        return chirp
     }
  
-    async read (where: object) {
-        return where
+    async read (where: {}) {
+        const chirps = await prisma.chirp.findMany({ where })
+        
+        if(!chirps) return false
+
+        return chirps
+    }
+
+    async readOne (where = {}) {
+        const chirp = await prisma.chirp.findUnique({ where })
+
+        if (!chirp) return false
+
+        return chirp
     }
 
     async update (data: object, where: object) {

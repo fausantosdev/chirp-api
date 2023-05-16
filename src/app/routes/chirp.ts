@@ -1,14 +1,14 @@
 import { Router } from 'express'
 
-import userController from '../controllers/UserController'
+import chirpController from '../controllers/ChirpController'
 
 import { verifyToken } from '../middlewares/auth'
 
 const routes = Router()
 
-routes.post('/', userController.store)
+routes.post('/', chirpController.store)
 
-routes.get('/:id?', userController.index)
+routes.get('/:id?', chirpController.index)
 //routes.put('/:id', checkUserOrIsAdmin, UserController.update)
 //routes.delete('/:id', checkUserOrIsAdmin, UserController.remove)
 

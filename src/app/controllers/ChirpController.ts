@@ -6,15 +6,17 @@ class ChirpController {
     async index(req: Request, res: Response) {
         const { id } = req.params
 
-        try {
-            /*const result = await UserService.readById(id)
-            
-            console.log(result)*/
+        let result = null
 
+        try {
+            id ?
+                result = await ChirpService.readOne({ id: Number(id) }) :
+                result = await ChirpService.read()
+            
             return res.status(200).json({
                 status: true,
-                data: 'data',
-                message: 'message'
+                data: result,
+                message: ''
             }) 
         } catch (error: any) {
             return res.status(error.code || 500).json({
@@ -26,31 +28,32 @@ class ChirpController {
     }
 
     async store(req: Request, res: Response){
-        const schema = Yup.object().shape({
-            name: Yup.string().required(),
-            username: Yup.string().required(),
-            email: Yup.string().email().required(),
-            password: Yup.string().min(8).max(100).required()
-        })
-
-        if(!(await schema.isValid(req.body))){
-            return res.status(400).json({ error: 'Erro de validação' })
-        }
-
-        const newUser = await ChirpService.create(req.body)
-
         try {
+            const schema = Yup.object().shape({
+                content: Yup.string().required()
+            })
+    
+            await schema.validate(req.body, { abortEarly: false })
+            
+            const { content } = req.body
+
+            const newUser = await ChirpService.create({ 
+                userId: 1, 
+                content,
+                image: 'aqui-e-uma-imagem.jpeg'
+            })
+    
             return res.status(201).json({
                 status: true,
                 data: newUser,
-                message: 'Usuário criado com sucesso'
+                message: 'Chirp publicado sucesso'
             })
 
         } catch (error: any) {
             return res.status(error.code || 500).json({
                 status: false,
                 data: null,
-                message: error.message
+                message: error instanceof Yup.ValidationError ? error.errors : error.message
             })
         }
     }
