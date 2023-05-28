@@ -23,8 +23,11 @@ class ChirpRepository {
  
     async read (where: {}) {
         const chirps = await prisma.chirp.findMany({ 
-            where, 
-            include: { 
+            where,  
+            select: { 
+                image: true,
+                content: true,
+                createdAt: true,
                 user: { 
                     select: { 
                         username: true 
@@ -53,7 +56,7 @@ class ChirpRepository {
     async delete (where: object) {
         const deleted = await prisma.chirp.delete({ where })
 
-        return deleted
+        return de
     }
 }
 
