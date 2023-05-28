@@ -22,7 +22,16 @@ class ChirpRepository {
     }
  
     async read (where: {}) {
-        const chirps = await prisma.chirp.findMany({ where })
+        const chirps = await prisma.chirp.findMany({ 
+            where, 
+            include: { 
+                user: { 
+                    select: { 
+                        username: true 
+                    } 
+                } 
+            } 
+        })
         
         if(!chirps) return false
 
