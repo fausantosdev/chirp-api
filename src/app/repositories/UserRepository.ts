@@ -27,7 +27,11 @@ class UserRepository {
          *       email: 'email@mail.com',
          *   }
          */
-        const users = await prisma.user.findMany({ where })
+        const users = await prisma.user.findMany({ where, select: { 
+            id: true,
+            username: true,
+            image: true
+        } })
         
         if(!users) return false
 
