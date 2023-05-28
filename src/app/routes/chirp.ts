@@ -10,6 +10,6 @@ routes.post('/', chirpController.store)
 
 routes.get('/:id?', chirpController.index)
 //routes.put('/:id', checkUserOrIsAdmin, UserController.update)
-//routes.delete('/:id', checkUserOrIsAdmin, UserController.remove)
+routes.delete('/:id', chirpController.remove)
 
 export default routes

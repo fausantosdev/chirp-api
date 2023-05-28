@@ -22,7 +22,7 @@ class ChirpService {
     async read (where = {}) {
         const result = await ChirpRepository.read(where)
 
-        if ( !result ) throw new CustomException('Nenhum post encontrado')
+        if ( !result ) throw new CustomException('Nenhum chirp encontrado')
 
         return result
     }
@@ -30,7 +30,7 @@ class ChirpService {
     async readOne (where = {}) {
         const result = await ChirpRepository.readOne(where)
 
-        if ( !result ) throw new CustomException('Post não encontrado')
+        if ( !result ) throw new CustomException('Chirp não encontrado')
 
         return result
     }
@@ -40,7 +40,18 @@ class ChirpService {
     }
 
     async delete (where: object) {
-        return where
+
+        const exists = await ChirpRepository.readOne(where)
+
+        if(!exists) {
+            throw new CustomException('Chirp não encontrado')
+        }
+
+        const { id } = exists
+
+        const deleted = await ChirpRepository.delete({ id })
+
+        return deleted.id
     }
 }
 

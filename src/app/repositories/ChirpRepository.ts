@@ -51,7 +51,9 @@ class ChirpRepository {
     }
 
     async delete (where: object) {
-        return where
+        const deleted = await prisma.chirp.delete({ where })
+
+        return deleted
     }
 }
 

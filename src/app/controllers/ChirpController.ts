@@ -79,26 +79,26 @@ class ChirpController {
         }
     }*/
 
-    /*async remove(req, res){
+    async remove(req: Request, res: Response){
         const id = req.params.id
 
         try {
-            const result = await UserService.delete({ id })
+            const result = await ChirpService.delete({ id: Number(id) })
             
             return res.status(200).json({
                 status: true,
                 data: result,
-                message: ''
+                message: 'Chirp removido'
             })
 
-        } catch (error) {
+        } catch (error: any) {
             return res.status(error.code || 500).json({
                 status: false,
                 data: null,
                 message: error.message
             })
         } 
-    }*/
+    }
 }
 
 export default new ChirpController()
