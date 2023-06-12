@@ -1,43 +1,35 @@
-const Yup = require('yup')
+import * as Yup from 'yup'
 import { Request, Response } from 'express'
 
-const AuthService = require('../services/auth/AuthService')
-const RecoverPasswordService = require('../services/auth/RecoverPasswordService')
+import AuthService from '../services/AuthService'
 
 class AuthController {
     async login(req: Request, res: Response) {
-        const schema = Yup.object().shape({
-            email: Yup.string().email().required(),
-            password: Yup.string().required()
-        })
-
-        if(!(await schema.isValid(req.body))){
-            return res.status(400).json({
-                status: false,
-                data: null,
-                message: 'Validation fails'
-            })
-        }
-
         try {
-            const result = await AuthService.login(req.body)
+            const schema = Yup.object().shape({
+                email: Yup.string().email().required()
+            })
+    
+            await schema.validate(req.body, { abortEarly: false })
 
-            return res.json({
+            const result = await AuthService.login({ email: req.body.email })
+    
+            return res.status(201).json({
                 status: true,
                 data: result,
-                message: ''
+                message: 'Um token foi enviado para seu e-mail, use-o para se autenticar'
             })
+
         } catch (error: any) {
             return res.status(error.code || 500).json({
-                status: true,
+                status: false,
                 data: null,
-                message: error.message
+                message: error instanceof Yup.ValidationError ? error.errors : error.message
             })
         }
-        
     }
 
-    async tokenRefresh (req: Request, res: Response) {
+    /*async tokenRefresh (req: Request, res: Response) {
         const token = req.headers.authorization?.split(' ')[1]
 
         try {
@@ -55,9 +47,9 @@ class AuthController {
                 message: error.message
             })
         }
-    }
+    }*/
 
-    logout(req: Request, res: Response) {
+    /*logout(req: Request, res: Response) {
         try {
             //delete req.user
 
@@ -71,9 +63,9 @@ class AuthController {
                 message: error.message,
             })
         }
-    }
+    }*/
 
-    async recoverPassword (req: Request, res: Response) {
+    /*async recoverPassword (req: Request, res: Response) {
         const schema = Yup.object().shape({
             email: Yup.string().email().required()
         })
@@ -103,7 +95,7 @@ class AuthController {
                 message: error.message,
             })
         }
-    }
+    }*/
 }
 
-module.exports = new AuthController()
+export default new AuthController()
