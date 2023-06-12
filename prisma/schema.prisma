@@ -50,5 +50,5 @@ model Chirp {
   updatedAt DateTime @updatedAt
 
   userId Int
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
