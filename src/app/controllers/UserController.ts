@@ -30,8 +30,6 @@ class UserController {
     async store(req: Request, res: Response){
         try {
             const schema = Yup.object().shape({
-                name: Yup.string().required(),
-                username: Yup.string().required(),
                 email: Yup.string().email().required()
             })
     

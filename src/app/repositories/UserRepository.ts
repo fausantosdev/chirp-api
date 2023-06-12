@@ -3,17 +3,13 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 type CreateUser = {
-    name: string,
-    username: string,
-    email: string,
+    email: string
 }
 
 class UserRepository {
-    async create ({ name, username, email }: CreateUser) {  
+    async create ({ email }: CreateUser) {  
         const user = await prisma.user.create({
             data: {
-                name,
-                username,
                 email
             }
         })
