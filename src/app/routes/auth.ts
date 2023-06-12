@@ -1,13 +1,13 @@
 import { Router } from 'express'
 
-import UserController from '../controllers/UserController'
-//import AuthController from '../controllers/AuthController'
+//import UserController from '../controllers/UserController'
+import AuthController from '../controllers/AuthController'
 
-const { verifyToken } = require('../middlewares/auth')
+import { verifyToken } from '../middlewares/auth'
 
 const routes = Router()
 
-routes.post('/register', UserController.store)
+routes.post('/login', AuthController.login)
 /*routes.post('/login', AuthController.login)
 routes.post('/forget-password', AuthController.login)
 
