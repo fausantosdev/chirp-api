@@ -11,22 +11,17 @@ type ICreateUser = {
 type IUpdatedUser = {
     name?: string,
     username?: string,
-    email?: string,
+    email: string,
 }
 
 class UserService {
-    async create ({ name, username, email }: ICreateUser) {
-        const usernameExists = await UserRepository.readOne({ username })
-
-        if (usernameExists) throw new CustomException('Username já está sendo utilizado')
+    async create ({ email }: ICreateUser) {
 
         const emailExixts = await UserRepository.readOne({ email })
 
         if (emailExixts) throw new CustomException('E-mail já está sendo utilizado')
 
         const result = await UserRepository.create({
-            name,
-            username,
             email
         })
 
